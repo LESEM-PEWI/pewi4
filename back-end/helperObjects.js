@@ -3520,9 +3520,9 @@ function Tile(tileArray, board) {
 
   //helper method for calculation of PApplicationRate
   this.getSeasonalUtilizationRate = function(year) {
-    if (this.landType[year] == LandUseType.permanentPasture) return 0.35;
+    if (this.landType[year] === LandUseType.permanentPasture) return 0.35;
     //Note: Year 5 condition below allows 0.55 to be selected when calculating max value for cattle yield
-    else if (this.landType[year] == LandUseType.rotationalGrazing || year == 5) return 0.55;
+    else if (this.landType[year] === LandUseType.rotationalGrazing || year === 5) return 0.55;
     else return 0;
   }; //end this.getSeasonalUtilizationRate
 
@@ -4133,11 +4133,12 @@ function Tile(tileArray, board) {
 
   //return yield base rate for cattle dependent on soil type and land use type
   this.getCattleSupported = function(year) {
-    var CATTLE_BODY_WEIGHT = 1200;
-    var GRAZING_SEASON_LENGTH = 200;
-    var cattleAverageDailyIntake = 0.03 * CATTLE_BODY_WEIGHT;
-    var yieldBaseRates = [6.3, 3.6, 4.3, 5.6, 3.6, 4.1, 4.2, 6.5, 6.4, 3.6, 6.9, 6.7, 6.3, 0];
-    if (year == -1) {
+    // I changed this const rather than var
+    const CATTLE_BODY_WEIGHT = 1200;
+    const GRAZING_SEASON_LENGTH = 200;
+    const cattleAverageDailyIntake = 0.03 * CATTLE_BODY_WEIGHT;
+    const yieldBaseRates = [6.3, 3.6, 4.3, 5.6, 3.6, 4.1, 4.2, 6.5, 6.4, 3.6, 6.9, 6.7, 6.3, 0];
+    if (year === -1) {
       return yieldBaseRates[this.getSoilTypeYieldIndex(this.soilType)];
     }
     return (this.getSeasonalUtilizationRate(year) / ((cattleAverageDailyIntake / 2000) * GRAZING_SEASON_LENGTH)) * yieldBaseRates[this.getSoilTypeYieldIndex(this.soilType)];
